@@ -9,6 +9,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [resendCount, setResendCount] = useState(0);
   const [lastSentTime, setLastSentTime] = useState(null);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "";
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -27,7 +28,7 @@ export default function App() {
     try {
       const token = localStorage.getItem("auth_token");
       if (token) {
-        const res = await fetch("http://localhost:8080/api/validate-session", {
+        const res = await fetch(`${BACKEND_URL}/api/validate-session`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.ok) {
@@ -62,7 +63,7 @@ export default function App() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/send-magic-link", {
+      const res = await fetch(`${BACKEND_URL}/api/send-magic-link`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -88,7 +89,7 @@ export default function App() {
     setLoading(true);
     
     try {
-      const res = await fetch(`http://localhost:8080/api/verify-token?token=${token}`);
+      const res = await fetch(`${BACKEND_URL}/api/verify-token?token=${token}`);
       const data = await res.json();
 
       if (data.valid) {

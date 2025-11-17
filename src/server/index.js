@@ -4,7 +4,8 @@ const express = require("express");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
-
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -18,7 +19,7 @@ const transporter = nodemailer.createTransport({
 app.post("/api/send-magic-link", async (req, res) => {
   const { email } = req.body;
   const token = crypto.randomBytes(32).toString("hex");
-  const link = `http://localhost:8080/?token=${token}`;
+  const link = `${FRONTEND_URL}/?token=${token}`;
   tokens.set(token, { email, expires: Date.now() + 10 * 60 * 1000 }); // 10 min
 
   // Professional HTML email matching React UI
@@ -330,9 +331,8 @@ app.get("/api/verify-token", (req, res) => {
 // --- Serve frontend build ---
 app.use(express.static(path.join(__dirname, "../../dist")));
 
-// --- React Router fallback ---
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../../dist/index.html"));
 });
 
-app.listen(8080, () => console.log("Server running on http://localhost:8080"));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
