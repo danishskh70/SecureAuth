@@ -43,15 +43,15 @@ cd simple-react-full-stack
 
 `bash npm install`
 
-### Configure Gmail SMTP credentials in server/index.js:
+## Environment Variables
 
-javascriptconst transporter = nodemailer.createTransporter({
-service: "gmail",
-auth: {
-user: "youremail@gmail.com",
-pass: "your-app-password"
-},
-});
+Create a `.env` file at project root with:
+
+GMAIL_USER=your-email@gmail.com
+GMAIL_PASS=your-app-password
+PORT=8080
+TOKEN_EXPIRY_MINUTES=10
+
 Note: Use an App Password for Gmail to avoid authentication issues.
 Running the App
 `bash npm start`
