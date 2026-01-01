@@ -107,7 +107,3 @@ server/index.js – Express backend with email sending & token verification
 ## 📄 License
 
 MIT License © 2025 SecureAuth
-
-## 🌐 Live Demo
-
-https://secureauth-1-9g1g.onrender.com/
